@@ -1,0 +1,103 @@
+---
+title: Introduction
+description: A sleek and modern template for building documentation and blogs with Next.js 15, MDX, Velite, and Shadcn UI components
+published: true
+toc:
+  visible: true
+date: 2024-03-14
+---
+
+## Core Features
+
+<br />
+<br />
+
+<div className="grid grid-cols-1 sm:grid-cols-3 gap-6 my-8">
+  <Card>
+    <CardHeader>
+      <CardTitle>Content Creation</CardTitle>
+    </CardHeader>
+    <CardContent>
+      Write documentation using Markdown with embedded React components through MDX.
+    </CardContent>
+  </Card>
+
+  <Card>
+    <CardHeader>
+      <CardTitle>Content Management</CardTitle>
+    </CardHeader>
+    <CardContent>
+      Organize and process content efficiently with Velite's content management system.
+    </CardContent>
+  </Card>
+
+  <Card>
+    <CardHeader>
+      <CardTitle>User Interface</CardTitle>
+    </CardHeader>
+    <CardContent>
+      Pre-built components from Shadcn UI for consistent design and functionality.
+    </CardContent>
+  </Card>
+</div>
+
+## Setup Guide
+
+This is a ready-to-use template that comes with everything you need to build a modern documentation site or blog using Next.js 15, MDX, Velite, and Shadcn UI components.
+
+<Steps>
+
+<Step>
+Clone the repository
+
+```bash
+git clone https://github.com/rudrodip/mext15.git my-docs
+cd my-docs
+```
+</Step>
+
+<Step>
+Install dependencies
+
+```bash
+bun install
+```
+</Step>
+
+<Step>
+Start the development server
+
+```bash
+bun run dev
+```
+</Step>
+
+</Steps>
+
+
+<Alert>
+  <AlertTitle>Note</AlertTitle>
+  <AlertDescription>
+    Review the documentation to understand the template structure and available features.
+  </AlertDescription>
+</Alert>
+
+### Directory Structure
+
+<Files defaultValue="src/app/docs/[[...slug]]">
+  <Folder name="content" defaultOpen>
+    <Folder name="docs">
+      <File name="index.mdx" />
+    </Folder>
+  </Folder>
+  <Folder name="src">
+    <Folder name="app">
+      <Folder name="docs">
+        <Folder name="[[...slug]]">
+          <File name="page.tsx" />
+        </Folder>
+        <File name="layout.tsx" />
+      </Folder>
+    </Folder>
+  </Folder>
+</Files>

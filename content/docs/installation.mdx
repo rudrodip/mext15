@@ -1,0 +1,90 @@
+---
+title: Installation
+description: How to get started with this Next.js MDX template
+published: true
+toc:
+  visible: true
+date: 2024-01-06
+---
+
+## Quick Start
+
+This is a ready-to-use template that comes with everything you need to build a modern documentation site or blog using Next.js 15, MDX, Velite, and Shadcn UI components.
+
+<Steps>
+
+<Step>
+Clone the repository
+
+```bash
+git clone https://github.com/rudrodip/mext15.git my-docs
+cd my-docs
+```
+</Step>
+
+<Step>
+Install dependencies
+
+```bash
+bun install
+```
+</Step>
+
+<Step>
+Start the development server
+
+```bash
+bun run dev
+```
+</Step>
+
+</Steps>
+
+## What's Included
+
+This template comes pre-configured with:
+
+- **Next.js 15** - The React framework for production
+- **Velite** - Content management system
+- **MDX** - Write content with JSX components
+- **Shadcn UI** - Beautiful and customizable UI components
+- **Tailwind CSS** - Utility-first CSS framework
+- **TypeScript** - Type safety out of the box
+
+## Project Structure
+
+The template follows a standard Next.js project structure with additional directories for content management:
+
+<Files defaultValue="src/app">
+  <Folder name="content">
+    <File name="Your MDX content files" />
+  </Folder>
+  <Folder name="public">
+    <File name="Static assets" />
+  </Folder>
+  <Folder name="src">
+    <Folder name="app">
+      <File name="Next.js app router pages" />
+    </Folder>
+    <Folder name="components">
+      <File name="React components" />
+    </Folder>
+    <Folder name="config">
+      <File name="Site configuration" />
+    </Folder>
+    <Folder name="types">
+      <File name="TypeScript types" />
+    </Folder>
+  </Folder>
+</Files>
+
+## Configuration
+
+You can customize the site by editing `src/config/site.config.ts`. This includes site metadata, social links, and other configuration options.
+
+## Next Steps
+
+You can start adding your own content by:
+1. Adding MDX files in the `content/docs` directory
+2. Customizing the theme in `tailwind.config.ts`
+3. Modifying site configuration in `src/config/site.config.ts`
