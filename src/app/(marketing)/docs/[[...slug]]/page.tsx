@@ -16,8 +16,6 @@ import { absoluteUrl, cn } from "@/lib/utils";
 import { MDXContentRenderer } from "@/components/mdx/mdx-content-renderer";
 import { DashboardTableOfContents } from "@/components/mdx/toc";
 
-export const runtime = "edge";
-
 type DocPageProps = {
     slug: string[];
 };
