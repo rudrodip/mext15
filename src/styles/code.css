@@ -1,0 +1,63 @@
+html.light[data-theme="dark"] {
+  display: none;
+}
+
+html.dark[data-theme="light"] {
+  display: none;
+}
+
+[data-rehype-pretty-code-figure] {
+  @apply bg-zinc-800 rounded-md my-3;
+}
+
+[data-rehype-pretty-code-figure] code {
+  @apply grid min-w-full break-words border-none bg-transparent pl-3 text-sm rounded-md;
+  counter-reset: line;
+  box-decoration-break: clone;
+}
+
+[data-rehype-pretty-code-figure] .line {
+  @apply px-4 py-1;
+}
+
+[data-rehype-pretty-code-figure] code[data-line-numbers] {
+  counter-reset: line;
+}
+
+[data-rehype-pretty-code-figure] code[data-line-numbers] > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  @apply mr-4 inline-block w-4 text-right text-gray-500;
+}
+
+[data-rehype-pretty-code-figure] .line--highlighted {
+  @apply bg-slate-300 bg-opacity-10;
+}
+
+[data-rehype-pretty-code-figure] .line-highlighted span {
+  @apply relative;
+}
+
+[data-highlighted-line] {
+  @apply bg-slate-300 bg-opacity-10;
+}
+
+[data-rehype-pretty-code-figure] .word--highlighted {
+  @apply rounded-md bg-slate-300 bg-opacity-10 p-1;
+}
+
+[data-rehype-pretty-code-title] {
+  @apply text-sm text-zinc-300 px-3 py-2;
+}
+
+[data-rehype-pretty-code-title] + pre {
+  @apply mt-0;
+}
+
+.mdx > .steps:first-child > h3:first-child {
+  @apply mt-0;
+}
+
+.steps > h3 {
+  @apply mt-8 mb-4 text-base font-semibold;
+}
