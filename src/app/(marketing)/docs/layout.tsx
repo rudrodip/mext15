@@ -11,7 +11,9 @@ export default function DocsLayout({
     <SidebarProvider>
       <AppSidebar />
       <main className="flex-1 w-full">
-        <Navbar />
+        <div className="sticky top-0 z-50 bg-background">
+          <Navbar />
+        </div>
         <div className="max-w-7xl mx-auto">
           {children}
         </div>
