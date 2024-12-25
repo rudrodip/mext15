@@ -3,22 +3,35 @@
 import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
-type ThemeTogglerProps = {
-  className?: string;
-}
-
-export default function ThemeToggler({ className }: ThemeTogglerProps) {
+export default function ThemeToggler({ className }: { className?: string }) {
   const { theme, setTheme } = useTheme();
+  const [systemTheme, setSystemTheme] = useState<"light" | "dark">("light");
 
-  const switchTheme = () => {
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    setSystemTheme(mediaQuery.matches ? "dark" : "light");
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setSystemTheme(e.matches ? "dark" : "light");
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
+  const SWITCH = () => {
     switch (theme) {
       case "light":
         setTheme("dark");
         break;
       case "dark":
         setTheme("light");
+        break;
+      case "system":
+        setTheme(systemTheme === "light" ? "dark" : "light");
         break;
       default:
         break;
@@ -27,16 +40,17 @@ export default function ThemeToggler({ className }: ThemeTogglerProps) {
 
   const toggleTheme = () => {
     //@ts-ignore
-    if (!document.startViewTransition) switchTheme();
+    if (!document.startViewTransition) SWITCH();
 
     //@ts-ignore
-    document.startViewTransition(switchTheme);
+    document.startViewTransition(SWITCH);
   };
+
 
   return (
     <Button
       onClick={toggleTheme}
-      variant="outline"
+      variant="ghost"
       size="icon"
       className={cn("rounded-full", className)}
     >
