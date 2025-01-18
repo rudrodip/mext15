@@ -1,7 +1,5 @@
 "use client"
 
-import { Book, FileText, GitFork, Home, ScrollText } from "lucide-react"
-
 import {
   Sidebar,
   SidebarContent,
@@ -14,34 +12,7 @@ import {
 } from "@/components/ui/sidebar"
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-
-const items = [
-  {
-    title: "Documentation",
-    url: "/docs",
-    icon: Book,
-  },
-  {
-    title: "Installation",
-    url: "/docs/installation",
-    icon: FileText,
-  },
-  {
-    title: "Components",
-    url: "/docs/components",
-    icon: Home,
-  },
-  {
-    title: "License",
-    url: "/docs/license",
-    icon: ScrollText,
-  },
-  {
-    title: "Contribute",
-    url: "/docs/contribute",
-    icon: GitFork,
-  },
-]
+import { docsConfig } from "@/config/docs.config";
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -53,11 +24,11 @@ export function AppSidebar() {
           <SidebarGroupLabel>Docs</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {docsConfig.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={item.url === pathname}>
-                    <Link href={item.url}>
-                      <item.icon />
+                  <SidebarMenuButton asChild isActive={item.href === pathname}>
+                    <Link href={item.href ?? ""}>
+                      {item.icon && <item.icon />}
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
