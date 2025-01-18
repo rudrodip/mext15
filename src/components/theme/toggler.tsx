@@ -1,12 +1,11 @@
 "use client";
 
-import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
+import { MoonIcon, SunIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-export default function ThemeToggler({ className }: { className?: string }) {
+export function useThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [systemTheme, setSystemTheme] = useState<"light" | "dark">("light");
 
@@ -22,7 +21,7 @@ export default function ThemeToggler({ className }: { className?: string }) {
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
-  const SWITCH = () => {
+  const switchTheme = () => {
     switch (theme) {
       case "light":
         setTheme("dark");
@@ -39,23 +38,34 @@ export default function ThemeToggler({ className }: { className?: string }) {
   };
 
   const toggleTheme = () => {
-    //@ts-ignore
-    if (!document.startViewTransition) SWITCH();
+    // @ts-expect-error: startViewTransition is not yet in the TypeScript DOM lib
+    if (!document.startViewTransition) switchTheme();
 
-    //@ts-ignore
-    document.startViewTransition(SWITCH);
+    // @ts-expect-error: startViewTransition is not yet in the TypeScript DOM lib
+    document.startViewTransition(switchTheme);
   };
 
+  return { theme, toggleTheme };
+}
+
+export default function ThemeToggler() {
+  const { toggleTheme } = useThemeToggle();
 
   return (
     <Button
       onClick={toggleTheme}
       variant="ghost"
-      size="icon"
-      className={cn("rounded-full", className)}
+      size="sm"
+      className="size-8 p-0"
     >
-      <SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+      <SunIcon
+        size={16}
+        className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+      />
+      <MoonIcon
+        size={16}
+        className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+      />
       <span className="sr-only">Toggle theme</span>
     </Button>
   );
