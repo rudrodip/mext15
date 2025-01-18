@@ -38,10 +38,10 @@ export function useThemeToggle() {
   };
 
   const toggleTheme = () => {
-    // @ts-expect-error: startViewTransition is not yet in the TypeScript DOM lib
+    // @ts-ignore: startViewTransition is not yet in the TypeScript DOM lib
     if (!document.startViewTransition) switchTheme();
 
-    // @ts-expect-error: startViewTransition is not yet in the TypeScript DOM lib
+    // @ts-ignore: startViewTransition is not yet in the TypeScript DOM lib
     document.startViewTransition(switchTheme);
   };
 
