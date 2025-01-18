@@ -21,9 +21,18 @@ export type Theme = "light" | "dark";
 
 export type NavItem = {
   title: string;
-  href: string;
+  href?: string;
   icon?: LucideIcon;
-};
+  disabled?: boolean;
+  external?: boolean;
+  label?: string;
+}
+
+export type NavItemWithChildren = NavItem & {
+  items: NavItemWithChildren[];
+}
+
+export type SidebarItem = NavItemWithChildren & {};
 
 export interface UnistNode extends Node {
   type: string
