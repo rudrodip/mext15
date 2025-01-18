@@ -10,10 +10,13 @@ import { Button } from "@/components/ui/button";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { siteConfig } from "@/config/site.config";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { CommandMenu } from "./command-menu";
+import MobileNav from "./mobile";
 
 export default function Navbar() {
   return (
     <nav className="flex items-center justify-between w-full py-3 px-2 border-b">
+      <MobileNav />
       <div className="flex items-center">
         <div className="relative items-center hidden md:flex gap-2">
           <SidebarTrigger />
@@ -27,6 +30,7 @@ export default function Navbar() {
         </div>
       </div>
       <div className="flex items-center gap-2 w-full sm:w-auto">
+        <CommandMenu />
         <div className="flex items-center gap-2">
           <Button size="icon" variant="ghost" asChild>
             <a href={siteConfig.socials.github} target="_blank">
