@@ -11,6 +11,7 @@ import { docs } from "#site/content";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
+  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
@@ -88,7 +89,7 @@ export function CommandMenu({ ...props }: DialogProps) {
   };
 
   const fuseMarketing = new Fuse(marketingConfig.filter((navitem) => !navitem.external), fuseOptions);
-  
+
   const docsWithHeadings = docs.map(doc => ({
     title: doc.title,
     href: `/docs/${doc.slugAsParams}`,
@@ -107,7 +108,7 @@ export function CommandMenu({ ...props }: DialogProps) {
       heading,
       ...(heading.items || [])
     ]) || [];
-    
+
     return headings.map(heading => ({
       ...heading,
       docTitle: doc.title,
@@ -121,34 +122,34 @@ export function CommandMenu({ ...props }: DialogProps) {
     threshold: 0.3,
   });
 
-  const filteredMarketingItems = searchTerm 
+  const filteredMarketingItems = searchTerm
     ? fuseMarketing.search(searchTerm).map(result => ({
-        ...result.item,
-        matches: result.matches,
-      }))
+      ...result.item,
+      matches: result.matches,
+    }))
     : marketingConfig.filter((navitem) => !navitem.external).map(item => ({
-        ...item,
-        matches: undefined,
-      }));
+      ...item,
+      matches: undefined,
+    }));
 
   const filteredDocsItems = searchTerm
     ? fuseDocs.search(searchTerm).map(result => {
-        return {
-          ...result.item,
-          matches: result.matches,
-        };
-      })
+      return {
+        ...result.item,
+        matches: result.matches,
+      };
+    })
     : docsWithHeadings.map(item => ({
-        ...item,
-        matches: undefined,
-      }));
+      ...item,
+      matches: undefined,
+    }));
 
   const filteredHeadings = searchTerm
     ? fuseHeadings.search(searchTerm)
     : allHeadings.map(item => ({
-        item,
-        matches: undefined,
-      }));
+      item,
+      matches: undefined,
+    }));
 
   const groupedHeadings = filteredHeadings.reduce((acc, heading) => {
     const docTitle = heading.item.docTitle;
@@ -179,96 +180,98 @@ export function CommandMenu({ ...props }: DialogProps) {
         <VisuallyHidden>
           <DialogTitle>Command Menu</DialogTitle>
         </VisuallyHidden>
-        <CommandInput
-          ref={inputRef}
-          placeholder="Search documentation"
-          value={searchTerm}
-          onValueChange={(value) => setSearchTerm(value)}
-        />
-        <CommandList ref={listRef}>
-          <CommandEmpty>No results found.</CommandEmpty>
-          
-          {filteredMarketingItems.length > 0 && (
-            <CommandGroup heading="Links">
-              {filteredMarketingItems.map((navItem) => (
-                <CommandItem
-                  key={`link-${navItem.href}`}
-                  value={`link-${navItem.href}`}
-                  onSelect={() => {
-                    runCommand(() => router.push(navItem.href as string));
-                  }}
-                >
-                  <FileIcon className="mr-2 h-4 w-4" />
-                  <span dangerouslySetInnerHTML={{ __html: highlightFuseMatches(navItem.title, navItem.matches) }} />
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          )}
-          
-          {filteredDocsItems.length > 0 && (
-            <CommandGroup heading="Documentation">
-              {filteredDocsItems.map((doc) => (
-                <CommandItem
-                  key={`doc-${doc.href}`}
-                  value={`doc-${doc.href}`}
-                  onSelect={() => {
-                    runCommand(() => router.push(doc.href));
-                  }}
-                  className="flex flex-col items-start gap-1"
-                >
-                  <div className="flex items-center">
-                    <FileIcon className="mr-2 h-4 w-4" />
-                    <span 
-                      dangerouslySetInnerHTML={{ 
-                        __html: highlightFuseMatches(doc.title, doc.matches) 
-                      }} 
-                    />
-                  </div>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          )}
+        <Command shouldFilter={false}>
+          <CommandInput
+            ref={inputRef}
+            placeholder="Search documentation"
+            value={searchTerm}
+            onValueChange={(value) => setSearchTerm(value)}
+          />
+          <CommandList ref={listRef}>
+            <CommandEmpty>No results found.</CommandEmpty>
 
-          {Object.entries(groupedHeadings)
-            .filter(([, headings]) => headings.length > 0)
-            .map(([docTitle, headings]) => (
-              <CommandGroup key={docTitle} heading={docTitle}>
-                {headings.map((result) => (
+            {filteredMarketingItems.length > 0 && (
+              <CommandGroup heading="Links">
+                {filteredMarketingItems.map((navItem) => (
                   <CommandItem
-                    key={`heading-${result.item.docHref}-${result.item.url}-${result.item.title}`}
-                    value={`heading-${result.item.docHref}${result.item.url}`}
+                    key={`link-${navItem.href}`}
+                    value={`link-${navItem.href}`}
                     onSelect={() => {
-                      runCommand(() => {
-                        router.push(result.item.docHref + result.item.url);
-                        setOpen(false);
-                      });
+                      runCommand(() => router.push(navItem.href as string));
                     }}
                   >
-                    <div className="mr-2 flex h-4 w-4 items-center justify-center">
-                      <CircleIcon className="h-3 w-3" />
-                    </div>
-                    <span 
-                      dangerouslySetInnerHTML={{ 
-                        __html: highlightFuseMatches(result.item.title, result.matches) 
-                      }} 
-                    />
+                    <FileIcon className="mr-2 h-4 w-4" />
+                    <span dangerouslySetInnerHTML={{ __html: highlightFuseMatches(navItem.title, navItem.matches) }} />
                   </CommandItem>
                 ))}
               </CommandGroup>
-            ))}
+            )}
 
-          <CommandSeparator />
-          <CommandGroup heading="Theme">
-            <CommandItem onSelect={() => runCommand(() => toggleTheme())}>
-              {theme === "dark" ? (
-                <SunIcon className="mr-2 h-4 w-4" />
-              ) : (
-                <MoonIcon className="mr-2 h-4 w-4" />
-              )}
-              Toggle Theme
-            </CommandItem>
-          </CommandGroup>
-        </CommandList>
+            {filteredDocsItems.length > 0 && (
+              <CommandGroup heading="Documentation">
+                {filteredDocsItems.map((doc) => (
+                  <CommandItem
+                    key={`doc-${doc.href}`}
+                    value={`doc-${doc.href}`}
+                    onSelect={() => {
+                      runCommand(() => router.push(doc.href));
+                    }}
+                    className="flex flex-col items-start gap-1"
+                  >
+                    <div className="flex items-center">
+                      <FileIcon className="mr-2 h-4 w-4" />
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: highlightFuseMatches(doc.title, doc.matches)
+                        }}
+                      />
+                    </div>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+
+            {Object.entries(groupedHeadings)
+              .filter(([, headings]) => headings.length > 0)
+              .map(([docTitle, headings]) => (
+                <CommandGroup key={docTitle} heading={docTitle}>
+                  {headings.map((result) => (
+                    <CommandItem
+                      key={`heading-${result.item.docHref}-${result.item.url}-${result.item.title}`}
+                      value={`heading-${result.item.docHref}${result.item.url}`}
+                      onSelect={() => {
+                        runCommand(() => {
+                          router.push(result.item.docHref + result.item.url);
+                          setOpen(false);
+                        });
+                      }}
+                    >
+                      <div className="mr-2 flex h-4 w-4 items-center justify-center">
+                        <CircleIcon className="h-3 w-3" />
+                      </div>
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: highlightFuseMatches(result.item.title, result.matches)
+                        }}
+                      />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              ))}
+
+            <CommandSeparator />
+            <CommandGroup heading="Theme">
+              <CommandItem onSelect={() => runCommand(() => toggleTheme())}>
+                {theme === "dark" ? (
+                  <SunIcon className="mr-2 h-4 w-4" />
+                ) : (
+                  <MoonIcon className="mr-2 h-4 w-4" />
+                )}
+                Toggle Theme
+              </CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </Command>
       </CommandDialog>
     </>
   );
